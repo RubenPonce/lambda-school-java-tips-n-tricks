@@ -10,11 +10,11 @@ Swagger UI comes out of the box with several features that aren't covered very i
 Your End Point documentation can be customized to give a better look into what they do. The whole purpose of this documentation is to make it easier for the frontend to read what's going on in each controller and what to expect so. 
 
 - *Name your own Controller Classes!* the `@Api` annotation allows you to name your controller instead of just giving the default! `%20` gives you spaces in the title of it. the description changes the 'subtitle' of your controller. And `produces` just tells you what your controller is going to deal with which will probably be JSON!
-`
+```
 @Api(value = "User%20Request%20Options",produces = "MediaType.APPLICATION_JSON_VALUE", tags = {"users"},description = "Where the magic for my users happen.")
 @RestController
 @RequestMapping(value = "/users")
-public class UserController {...`
+public class UserController {...```
 
 - *Name your indidvidual End Points inside your controller classes* The `@ApiOperation` notation gives you a description. But where you can really change things up is in what your endpoints will Respond with and what they mean. This will clear up a lot of confusion when your Front end is sending you Potato objects instead of User objects and wondering why your API doesn't work. Specify the Code, and put in the message. EZ Docs
 ``` @ApiOperation(value="creates a new user")
