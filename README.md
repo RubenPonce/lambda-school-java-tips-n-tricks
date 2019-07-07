@@ -71,7 +71,7 @@ public List<YourClass> findAll(Pageable pageable) {//ensure to add your pageable
 ```
 
 ## Deploying To Heroku
-Instructions are curtesy of @Doc, and John Mitchell. In short, take a very long string from heroku that is gotten from first adding postgres to your heroku app, with `heroku addons:create heroku-postgresql -a yourApp` and then `heroku -a config` will return a very long url string that contains your username, password, databasename, and url for the database. 
+Step-by-step Instructions are curtesy of @Doc, and John Mitchell. In short, take a very long string from heroku that is gotten from first adding postgres to your heroku app, with `heroku addons:create heroku-postgresql -a yourApp` and then `heroku -a yourApp config` will return a very long url string that contains your username, password, databasename, and url for the database. 
 for Example: <br>
 
 **heroku config -a yourAPP** *DATABASE_URL:* postgres://ztukeavfelzbya:8f089d91e8987b1db6121784bb0b7ba3a8c3bbb232daaed88604e83f08edf819@ec2-54-227-251-33.compute-
