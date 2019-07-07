@@ -1,6 +1,10 @@
 # lambda-school-java-tips-n-tricks
 A collection of tips for the Lambda School Java curriculum. This is meant to find little quips about a section or problem you may be currently dealing with specific to the curriculum, buildweeks, or your very own projects.
 
+## Table of Contents
+1. [Modifying application.properties](https://github.com/RubenPonce/lambda-school-java-tips-n-tricks#application-properties)
+2. [Swagger-UI](https://github.com/RubenPonce/lambda-school-java-tips-n-tricks#swagger-ui)
+3. [Repository Configurations](https://github.com/RubenPonce/lambda-school-java-tips-n-tricks#repository-configurations)
 ## Application Properties
 Application properties can be changed in a number of ways. One way that is common in configuring them is to have your application properties split into groups. 
 
