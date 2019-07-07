@@ -6,7 +6,7 @@ A collection of tips for the Lambda School Java curriculum. This is meant to fin
 1. [Modifying application.properties](https://github.com/RubenPonce/lambda-school-java-tips-n-tricks#application-properties)
 2. [Swagger-UI](https://github.com/RubenPonce/lambda-school-java-tips-n-tricks#swagger-ui)
 3. [Repository Configurations](https://github.com/RubenPonce/lambda-school-java-tips-n-tricks#repository-configurations)
-4. [Deploying to Heroku](https://github.com/RubenPonce/lambda-school-java-tips-n-tricks#depliying-to-heroku)
+4. [Deploying to Heroku](https://github.com/RubenPonce/lambda-school-java-tips-n-tricks#deploying-to-heroku)
 
 
 ## Application Properties
