@@ -1,6 +1,39 @@
 # lambda-school-java-tips-n-tricks
 A collection of tips for the Lambda School Java curriculum. This is meant to find little quips about a section or problem you may be currently dealing with specific to the curriculum, buildweeks, or your very own projects.
 
+## Application Properties
+Application properties can be changed in a number of ways. One way that is common in configuring them is to have your application properties split into groups. 
+
+### Change your local configuration
+`spring.profiles.active=local`can change your current configurations to a `application-local.properties`. This means you can have a configuration for *heroku*, a configuration for *testing*, and pretty much anything you can think of. So you don't have to go and comment out code anymore. 
+
+## Repository Configurations
+Sometimes you only want crud functionality in your repos, but you can also page your results with the Pageable class. 
+
+### Configure Your Repos to use Pageables
+The PagingAndSortingRepository extends the CRUD repository, so all methods in there will also be available in this interface.
+
+**Repository**<br>
+`YourClassRepository extends PagingAndSortingRepository<YourClass, Long>`
+
+**Service**<br>
+`List<YourClass> findAll(Pageable pageable);`
+
+**ServiceImpl**<br>
+```
+public List<YourClass> findAll(Pageable pageable) {//ensure to add your pageable to all findAll methods 
+        List<YourClass> list = new ArrayList<>();
+        yourClassRepository.findAll(pageable).iterator().forEachRemaining(list::add);
+        return list;
+```
+**and finally wherever you are returning JSON:** <br>
+```
+@GetMapping(value = "/yourclass", produces = {"application/json"})
+    public ResponseEntity<?> findAllYourClassList(@PageableDefault(page=0, size = 3) Pageable pageable){
+        return new ResponseEntity<>(yourClassService.findAll(pageable), HttpStatus.OK);
+    }
+```
+
 ## Swagger-UI
 Swagger UI comes out of the box with several features that aren't covered very in depth in the cirriculum. Navigate to `/swagger-ui.html` to view the page. **Remember that all of this is optional**
  ### Remove Configuration Controller documentation (to make nicer documentation for your Front End). 
