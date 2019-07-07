@@ -6,6 +6,7 @@ A collection of tips for the Lambda School Java curriculum. This is meant to fin
 1. [Modifying application.properties](https://github.com/RubenPonce/lambda-school-java-tips-n-tricks#application-properties)
 2. [Swagger-UI](https://github.com/RubenPonce/lambda-school-java-tips-n-tricks#swagger-ui)
 3. [Repository Configurations](https://github.com/RubenPonce/lambda-school-java-tips-n-tricks#repository-configurations)
+4. [Deploying to Heroku](https://github.com/RubenPonce/lambda-school-java-tips-n-tricks#depliying-to-heroku)
 
 
 ## Application Properties
@@ -67,4 +68,114 @@ public List<YourClass> findAll(Pageable pageable) {//ensure to add your pageable
     public ResponseEntity<?> findAllYourClassList(@PageableDefault(page=0, size = 3) Pageable pageable){
         return new ResponseEntity<>(yourClassService.findAll(pageable), HttpStatus.OK);
     }
+```
+
+## Deploying To Heroku
+Instructions are curtesy of @Doc, and John Mitchell. In short, take a very long string from heroku that is gotten from first adding postgres to your heroku app, with `heroku addons:create heroku-postgresql -a yourApp` and then `heroku -a config` will return a very long url string that contains your username, password, databasename, and url for the database. 
+for Example: <br>
+
+**heroku config -a yourAPP** *DATABASE_URL:* postgres://ztukeavfelzbya:8f089d91e8987b1db6121784bb0b7ba3a8c3bbb232daaed88604e83f08edf819@ec2-54-227-251-33.compute-
+1.amazonaws.com:5432/df41qidrqj2kbo<br>
+
+**your username:** ztukeavfelzbya<br>
+
+**your password:** 8f089d91e8987b1db6121784bb0b7ba3a8c3bbb232daaed88604e83f08edf819<br>
+
+**your URL:** ec2-54-227-251-33.compute-1.amazonaws.com:5432/df41qidrqj2kbo<br>
+
+**your Database name:** df41qidrqj2kbo<br>
+
+```
+Switch to postgres - change configs
+
+Start in pom
+   add postgres dependency to pom.xml
+
+application.properties
+    comment out h2 configuration
+
+    add spring.datasource.url=jdbc:postgressql://localhost:5432/dbstarthere
+        spring.datasource.username=postgresql
+        spring.datasource.password=${MYDBPASSWORD}
+        spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation=true
+
+For for the first run,
+    set - spring.jpa.hibernate.ddl-auto=create
+          spring.datasource.initialization-mode=always
+
+For the following runs,
+    set - spring.jpa.hibernate.ddl-auto=none
+          spring.datasource.initialization-mode=never
+
+Note:  you need to set up an environment variable called MYDBPASSWORD that contains the password to your PostgreSQL installation.
+       you need to create a database in PostgreSQL using pgAdmin called dbstarthere (or the name of your database)
+
+
+H2ServerConfiguration
+    comment out  @Configuration
+
+
+SeedData
+    comment out @Component
+
+
+DEPLOY TO HEROKU
+
+Create the application on Heroku
+At the Command Line
+    heroku login
+         login to heroku at the CL
+
+    browser popup
+    enter username and password
+    
+    heroku create -a nameThatMatchesChoiceOnHeroku
+        create application
+        give name that matches pom.xml
+
+    heroku addons:create heroku-postgresql -a nameThatMatchesChoiceOnHeroku
+        add postgreSQL to your application
+
+    heroku config -a nameThatMatchesChoiceOnHeroku at CL
+        returns postgres URL
+
+        postgres://rrwzjxlkniayov:83e8dc9dc5a3c3a30e40dde8fb62941da11030b3953709f5c8f808690e776c71@ec2-54-243-241-62.compute-1.amazonaws.com:5432/d7bl8dlv2l83jj    
+        posgress://username      :password                                                        @url                                      :5432/dbname
+    
+
+
+application.properties
+
+Edit:
+    spring.datasource.url=${SPRING_DATA_URL:jdbc:postgresql://(find in CL return value everything after the @) '+this' &sslmode=require
+    spring.datasource.username=(find in text of CL return value DATABASE_URL between // and :)
+    spring.datasource.password=(find in text of CL return value DATABASE_URL between : and @)
+
+    FINALLY add to spring.datasource.url
+        after host name add ":port"
+        and ?user='value'    copy&paste from spring.datasource.username
+        and after user ?password='value'  copy&paste from spring.datasource.password
+
+Check pgAdmin for results
+    Create new Server - right click on "Servers"
+        copy hostname from application.properties and paste into pgAdmin Server -> Create Server
+        copy username from application.properties and paste into pgAdmin
+        copy password from application.properties and paste into pgAdmin
+        On Create - Server under Advanced tab add dbname
+
+    Goto Query tab in pgAdmin and 'select * from sometablename'  to test
+
+
+Back in IntelliJ
+    Goto Maven tab
+    click m
+    CL enter clean heroku:deploy
+    Click execute
+
+Test with Postman
+    get access token - use token (remember to change your access token URL to appname.herokuapp.com/oauth/token)
+
+    GET
+    http://appname.herokuapp.com/endpoint/endpoint
+
 ```
